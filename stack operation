@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 5
+
+struct stack {
+    int items[STACK_SIZE];
+    int top;
+};
+
+typedef struct stack STACK;
+
+
+int is_empty(STACK *s) {
+    return (s->top == -1) ? 1 : 0; 
+}
+
+int is_full(STACK *s) {
+    return (s->top == STACK_SIZE - 1) ? 1 : 0;
+}
+
+
+void push(int item, STACK *s) {
+    if (is_full(s)) {
+        printf("Stack Overflow\n");
+    } else {
+        s->top++; 
+        s->items[s->top] = item; 
+    }
+}
+
+void pop(STACK *s) {
+    if (is_empty(s)) {
+        printf("Stack Underflow\n");
+    } else {
+        int item = s->items[s->top]; 
+        s->top--;
+        printf("Item Deleted: %d\n", item); 
+    }
+}
+
+
+void display(STACK *s) {
+    if (is_empty(s)) {
+        printf("Stack is empty\n");
+    } else {
+        printf("The contents of the stack:\n");
+        for (int i = s->top; i >= 0; i--) {
+            printf("%d\n", s->items[i]);
+        }
+    }
+}
+
+int main() {
+    int item; 
+    int choice; 
+    STACK s; 
+    s.top = -1; 
+    
+    do {
+        printf("\n1: Push \n2: Pop\n");
+        printf("3: Display \n4: Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                printf("Enter the item to be inserted: ");
+                scanf("%d", &item);
+                push(item, &s);
+                break;
+            case 2:
+                pop(&s);
+                break;
+            case 3:
+                display(&s);
+                break;
+            case 4:
+                exit(0);
+            default:
+                printf("Invalid choice. Please enter a number between 1 and 4.\n");
+        }
+    } while (choice != 4);
+    
+    return 0;
+}
