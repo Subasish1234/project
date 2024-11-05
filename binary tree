@@ -1,0 +1,102 @@
+#include<stdio.h> 
+#include<stdlib.h> 
+struct node 
+{ 
+int info; 
+struct node *left,*right; 
+}; 
+typedef struct node *bstnodetype; 
+bstnodetype findmin(bstnodetype node) 
+{ 
+if(node==NULL) 
+return NULL; 
+else 
+if(node->left==NULL) 
+return node; 
+else 
+return(findmin(node->left)); 
+} 
+bstnodetype insertN(bstnodetype node, int x) 
+{ 
+if(node==NULL) 
+{ 
+node=(bstnodetype)malloc(sizeof(struct node)); 
+node->info=x; 
+node->left=NULL; 
+node->right=NULL; 
+} 
+else 
+if(x<node->info) 
+node->left=insertN(node->left,x); 
+else if(x>node->info) 
+node->right=insertN(node->right,x); 
+return node; 
+} 
+bstnodetype deleteN(bstnodetype node,int x) 
+{ 
+bstnodetype temp; 
+if(node==NULL) 
+printf("\nElement %d is not found in the tree....\n",x); 
+else 
+if(x<node->info) 
+node->left=deleteN(node->left,x); 
+else 
+if(x>node->info) 
+node->right=deleteN(node->right,x); 
+else 
+if(node->left&& node->right) 
+{ 
+temp=findmin(node->right); 
+node->info=temp->info; 
+node->right=deleteN(node->right,node->info); 
+} 
+else 
+{ 
+temp=node; 
+if(node->left==NULL) 
+node=node->right; 
+else if(node->right==NULL) 
+node=node->left; 
+free(temp); 
+} 
+return node; 
+} 
+void inorder(bstnodetype node) 
+{ 
+if(node!=NULL) 
+{ 
+inorder(node->left);printf("%d ",node->info);inorder(node->right); 
+} 
+} 
+main() 
+{ 
+bstnodetype root=NULL; 
+int x,choice; 
+do 
+{ 
+printf("\nPRESS:\n1->INSERT\n2->DELETE\n3-DISPLAY\n4>EXIT\nEnter    your choice:\n"); 
+scanf("%d",&choice); 
+switch(choice) 
+{ 
+case 1: 
+printf("\nEnter Element to be inserted:\n"); 
+scanf("%d",&x);root=insertN(root,x);break; 
+case 2: 
+if(root==NULL) 
+{ 
+printf("Empty Tree....\n");break; 
+} 
+printf("\nEnter the element to be deleted:\n”); 
+scanf("%d",&x); 
+root=deleteN(root,x);break; 
+case 3: 
+if(root==NULL) 
+{ 
+printf("Empty Tree....\n");break; 
+} 
+inorder(root);printf("\n\n");break; 
+case 4: 
+exit(0); 
+} 
+} while(choice<5); 
+}
