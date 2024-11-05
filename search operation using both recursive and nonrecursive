@@ -1,0 +1,124 @@
+#include<stdio.h>
+void linear_search(int a[10],int n,int s)
+{
+int i;   
+for(i=0;i<n;i++)
+if(a[i]==s)
+{
+printf("\n%d found at %d position",s,i+1);
+break;  
+}
+if(i==n)
+printf("\n %d not found",s);
+}
+void binary_search(int a[10],int n,int s)
+{
+int lb=0,ub=n-1,mid,i,j,t;
+for(i=0;i<n-1;i++)
+    {
+for(j=i+1;j<n;j++)
+{
+if(a[i]>a[j])
+{
+t=a[i];
+a[i]=a[j];
+a[j]=t;
+}   }    }
+while(lb<=ub)
+{
+mid=(lb+ub)/2;
+if(a[mid]==s)
+{
+break;
+}
+if(s>a[mid])
+lb=mid+1;
+else
+ub=mid-1;
+}
+if(lb<=ub)
+printf("\n%d is found at %d position\n",s,mid+1);
+else
+printf("\nThe %d element is not found.\n",s);     
+}
+void linear_search_recursive(int arr[], int l, int r, int x)
+{
+if (r < l)
+{printf("\nElement %d is not present\n", x);return;}
+if (arr[l] == x)
+ {
+  printf("\nElement %d is present at position %d\n", x, l+1);return;
+ }
+linear_search_recursive(arr, l+1, r, x);
+}
+void binary_search_recursive(int arr[], int lo, int hi, int key)
+{
+int mid=(lo+hi)/2;
+if (lo > hi)
+{
+ printf("\nElement %d is not present\n", key);return;
+}
+if (arr[mid] == key)
+{
+printf("\nElement %d is present at position %d\n", key, mid+1);return;
+}
+else if (arr[mid] > key)
+binary_search_recursive(arr, lo, mid - 1, key);
+else if (arr[mid] < key)
+binary_search_recursive(arr, mid + 1, hi, key);
+}
+void selection_sort (int a[],int n)
+{
+int i,j,t;
+for(i=0;i<n-1;i++)  {
+for(j=i+1;j<n;j++)
+{
+if(a[i]>a[j])
+{
+t=a[i];
+a[i]=a[j];
+a[j]=t;
+}   }    }
+}
+main()
+{
+int s,a[50],i,n,choice,index;
+printf("\nEnter the number of elements:\n");
+scanf("%d",&n);
+printf("\nEnter %d integers:\n",n);
+for(i=0;i<n;i++)
+scanf("%d",&a[i]); 
+do
+{
+printf ("\nEnter Choice:\n
+1: Linear search (Non-Recursive)\n
+2: Binary search (Non-Recursive)\n
+3: Linear search (Recursive)\n
+4: Binary search (Recursive)\n
+Enter your choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1: 
+printf ("\nEnter the search element:\n");
+scanf("%d",&s);
+linear_search(a,n,s); 
+break;
+case 2: 
+printf ("\nEnter the search element:\n");
+scanf("%d",&s);
+selection_sort(a,n);
+binary_search(a,n,s); 
+break;
+case 3: 
+printf ("\nEnter the search element:\n");
+scanf("%d",&s);
+linear_search_recursive(a, 0, n-1, s);break;
+case 4: 
+printf ("\nEnter the search element:\n");
+scanf("%d",&s);
+selection_sort(a,n);
+binary_search_recursive(a,0,n-1,s);break;
+}
+} while(choice<5);
+}
