@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct stk
+{
+int info;
+struct stk *next;
+} stack;
+int isempty(stack *TOP)
+{
+if(TOP==NULL)
+return 1;
+else
+return 0;
+}
+stack * push(stack *TOP, int x)
+{
+stack * new;
+new=(stack*)malloc(sizeof(stack));
+new->info=x;
+new->next=TOP;
+return new;
+}
+stack * pop(stack *TOP)
+{
+stack * t;t=TOP;
+printf("\nPoped element is: %d\n",t->info);
+TOP=TOP->next;
+free(t);
+return TOP;
+}
+void peep(stack * TOP)
+{
+stack * ptr=TOP;
+printf("\nElement in the stack are:\n");
+while(ptr!=NULL)
+{
+printf("%d\t",ptr->info);
+ptr=ptr->next;
+}
+printf("\n\n");
+}
+void main()
+{
+stack *TOP=NULL;int item,option;
+do
+{
+printf("\nPRESS:\n1->PUSH\n2->POP\n3->PEEP\n
+4->EXIT\nEnter your chice:\n");
+scanf("%d",&option);
+switch(option)
+{
+case 1:printf("\nEnter Item:\n");
+scanf("%d",&item);
+TOP=push(TOP,item);
+break;
+case 2:if(isempty(TOP))
+{
+printf("\nStack Empty\n");
+break;
+}
+TOP=pop(TOP);break;
+case 3:if(isempty(TOP))
+{
+printf("\nStack Empty\n");
+break;
+}
+peep(TOP);break;
+case 4:exit(0);
+default:printf("\nWrong Choice\n");
+}
+}while(option<4);
+}
