@@ -1,0 +1,83 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct que
+{
+int info;
+struct que *next;
+};
+typedef struct que queue;
+queue * front=NULL,*rear=NULL;
+int isempty()
+{
+if(front==NULL)
+return 1;
+else
+return 0;
+}
+void insertQ(int x)
+{
+queue *temp;
+temp=(queue *)malloc(sizeof(queue));
+temp->info=x;
+temp->next=NULL;
+if(rear==NULL)
+front=temp;
+else
+rear->next=temp;
+rear=temp;
+}
+int deleteQ()
+{
+queue *temp;
+int x;
+temp=front;
+x=temp->info;
+front=temp->next;
+if(front==NULL)
+rear=NULL;
+free(temp);
+return(x);
+}
+void display()
+{
+queue *ptr;
+ptr=rear;
+printf("\nElements in the Queue are:\n");
+for(ptr=front;ptr!=NULL;ptr=ptr->next)
+printf("%d\t",ptr->info);
+printf("\n\n");
+}
+main()
+{
+int x,choice;
+do
+{
+printf("\nPRESS:\n1->INSERT\n2->DELETE\n3->DISPLAY\n
+4->EXIT\nEnter your chice:\n");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1: printf("\nEnter Item:\n");
+	scanf("%d",&x);
+	insertQ(x);
+	break;
+case 2:if(isempty())
+	{
+	printf("\nQueue Empty\n");
+	 break;
+	 }
+	 x=deleteQ();
+	printf("\nDeleted Element:%d\n",x);
+	break;
+case 3:if(isempty())
+	{
+	 printf("\nQueue Empty\n");
+	 break;
+	 }
+	display();
+	break;
+case 4:exit(0);
+default:printf("\nWrong Choice\n");
+}
+} while(choice<4);
+}
