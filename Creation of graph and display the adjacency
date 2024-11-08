@@ -1,0 +1,96 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct edgelist;
+typedef struct nodelist
+{
+int info,flag;
+struct nodelist *next;
+struct edgelist *adj;
+}graphnodetype;
+typedef struct edgelist
+{
+struct nodelist *dest;
+struct nodelist *link;
+}graphedgetype;
+graphnodetype *start;
+int n;
+void buildnodelist()
+{
+graphnodetype *curr,*prev;
+int i;
+printf("\nEnter the no of nodes in a graph:\n");
+scanf("%d",&n);
+prev=NULL;
+for(i=1;i<=n;i++)
+{
+curr=(graphnodetype*)malloc(sizeof(graphnodetype));
+curr->next=NULL;
+curr->adj=NULL;
+curr->info=i;
+curr->flag=1;
+if(prev==NULL)
+start=curr;
+else
+prev->next=curr;
+prev=curr;
+}
+}
+void buildadjucentlist()
+{
+graphedgetype *curr,*prev;
+graphnodetype *temp,*ptr;
+int i,j,m,k,p;
+temp=start;
+for(i=1;i<=n;i++)
+{
+printf("\nEnter the no of adj node of %d:\n",i);
+scanf("%d",&m);
+prev=NULL;
+for(j=1;j<=m;j++)
+{
+printf("\nEnter %d adj node of %d:\n",j,i);
+scanf("%d",&k);
+curr=(graphedgetype*)malloc(sizeof(graphedgetype));
+ptr=start;
+curr->link=NULL;
+p=1;
+while(p<k)
+{
+ptr=ptr->next;
+p++;
+}
+curr->dest=ptr;
+if(prev==NULL)
+temp->adj=curr;
+else
+prev->link=curr;
+prev=curr;
+}
+temp=temp->next;
+}
+}
+void displaynode()
+{
+graphnodetype *node;
+graphedgetype *ptr;
+node=start;
+printf("\nNode\tAdjacent List\n");
+while(node!=NULL)
+{
+printf("%d",node->info);
+ptr=node->adj;
+printf("\t");
+while(ptr!=NULL)
+{
+printf("%d ",ptr->dest->info);
+ptr=ptr->link;
+}
+printf("\n");
+node=node->next;
+}
+}
+void main()
+{
+buildnodelist();
+buildadjucentlist();
+displaynode(); }
